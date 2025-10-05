@@ -1,0 +1,42 @@
+From c640ab9e6a872758879215e6e69e253763c6c8d1 Mon Sep 17 00:00:00 2001
+From: Carlos Rafael Giani <crg7475@mailbox.org>
+Date: Sun, 5 Oct 2025 13:57:42 +0200
+Subject: [PATCH] kconfig/lxdialog: fix check() with GCC14
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Modern GCC requires explicit return types. Fix the test program
+to use proper C syntax. Otherwise, the test compilation fails with:
+
+    <stdin>:2:1: error: return type defaults to ‘int’ [-Wimplicit-int]
+
+and this breaks menuconfig.
+
+A similar fix is present in buildroot:
+
+https://gitlab.com/buildroot.org/buildroot/-/commit/a6210d28dbf66b2f0a42d945711dfd93c7329feb
+
+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+
+Upstream-Status: Inactive-Upstream [beluga kernel is not maintained]
+---
+ scripts/kconfig/lxdialog/check-lxdialog.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kconfig/lxdialog/check-lxdialog.sh b/scripts/kconfig/lxdialog/check-lxdialog.sh
+index 5075ebf2d3b9..910ca1f7ce00 100755
+--- a/scripts/kconfig/lxdialog/check-lxdialog.sh
++++ b/scripts/kconfig/lxdialog/check-lxdialog.sh
+@@ -47,7 +47,7 @@ trap "rm -f $tmp" 0 1 2 3 15
+ check() {
+         $cc -x c - -o $tmp 2>/dev/null <<'EOF'
+ #include CURSES_LOC
+-main() {}
++int main() { return 0; }
+ EOF
+ 	if [ $? != 0 ]; then
+ 	    echo " *** Unable to find the ncurses libraries or the"       1>&2
+-- 
+2.48.1
+

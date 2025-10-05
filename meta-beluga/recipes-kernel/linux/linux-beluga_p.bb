@@ -31,6 +31,7 @@ SRC_URI = " git://android.googlesource.com/kernel/msm;branch=android-msm-beluga-
     file://0015-touchscreen-cyttsp5-Add-delay-for-wakeup-report.patch \
     file://0016-dts-msm8909w-Enable-more-GPU-clock-frequencies.patch \
     file://0017-linux3.4-ARM-8933-1-replace-Sun-Solaris-style-flag-on-section.patch \
+    file://0018-kconfig-lxdialog-fix-check-with-GCC14.patch \
 " 
 
 SRCREV = "c9e8c2ecb9a8b9453504c12469b73a3947060a4e"
